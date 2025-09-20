@@ -37,10 +37,9 @@ jobs:
         extensions: mbstring, intl, bcmath, gd, pdo_mysql, soap, xsl, zip
         coverage: none
 
-    - name: Set Composer Auth
+    - name: Write Composer Auth file from base64 secret
       run: |
-        mkdir -p ~/.composer
-        echo "${{ secrets.COMPOSER_AUTH }}" > ./auth.json
+        echo "${{ secrets.COMPOSER_AUTH_B64 }}" | base64 --decode > ./auth.json
 
     - name: Install Composer dependencies
       run: composer install --no-interaction --prefer-dist
