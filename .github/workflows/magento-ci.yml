@@ -1,0 +1,30 @@
+name: Magento 2 CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 8.2
+          extensions: mbstring, intl, bcmath, soap, xsl, zip
+
+      - name: Install Composer dependencies
+        run: composer install --no-interaction --prefer-dist
+
+      - name: Run Magento commands
+        run: |
+          php bin/magento setup:upgrade
+          php bin/magento setup:di:compile
+          php bin/magento setup:static-content:deploy -f
+          php bin/magento cache:flush
