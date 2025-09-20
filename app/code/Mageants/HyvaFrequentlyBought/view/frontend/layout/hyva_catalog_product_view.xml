@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<!-- 
+ /**
+ * @category  Mageants HyvaFrequentlyBought
+ * @package   Mageants_HyvaFrequentlyBought
+ * @copyright Copyright (c) 2023 Magento
+ * @author    Mageants Team <support@mageants.com>
+ */
+ -->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="product.detail.page">
+            <action method="setTemplate">
+                <argument name="template" xsi:type="string">Mageants_HyvaFrequentlyBought::product/product-detail-page.phtml</argument>
+            </action>
+            <block class="Mageants\FrequentlyBought\Block\Product\ProductList\FrequentlyBought" name="mageants.frequently.bought.together.new" template="Mageants_HyvaFrequentlyBought::product/list/items.phtml" ifconfig="fbt_section/bought_together_settings/enable_disable">
+                <block class="Magento\Catalog\Block\Product\View\Options" name="mageants.product.info.options" as="product_options" template="Mageants_HyvaFrequentlyBought::product/view/options/options.phtml">
+                    <block class="Magento\Catalog\Block\Product\View\Options\Type\DefaultType" name="mageants.product.info.options.default" as="default" template="Magento_Catalog::product/view/options/type/default.phtml" />
+                    <block class="Magento\Catalog\Block\Product\View\Options\Type\Text" name="mageants.product.info.options.text" as="text" template="Mageants_HyvaFrequentlyBought::product/view/options/type/text.phtml" />
+                    <block class="Magento\Catalog\Block\Product\View\Options\Type\File" name="mageants.product.info.options.file" as="file" template="Mageants_HyvaFrequentlyBought::product/view/options/type/file.phtml" />
+                    <block class="Magento\Catalog\Block\Product\View\Options\Type\Select" name="mageants.product.info.options.select" as="select" template="Mageants_HyvaFrequentlyBought::product/view/options/type/select.phtml" />
+                    <block class="Magento\Catalog\Block\Product\View\Options\Type\Date" name="mageants.product.info.options.date" as="date" template="Mageants_HyvaFrequentlyBought::product/view/options/type/date.phtml" />
+                </block>
+                <block class="Magento\Bundle\Block\Catalog\Product\View\Type\Bundle" name="mageants.product.info.bundle.options" as="type_bundle_options" template="Mageants_HyvaFrequentlyBought::product/view/type/bundle/options.phtml" before="-">
+                    <block class="Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option\Select" name="mageants.product.info.bundle.options.select" as="select" template="Mageants_HyvaFrequentlyBought::product/view/type/bundle/option/select.phtml">
+                        <arguments>
+                            <argument name="tier_price_renderer" xsi:type="object">
+                    \Magento\Bundle\Block\DataProviders\OptionPriceRenderer</argument>
+                        </arguments>
+                    </block>
+                    <block class="Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option\Multi" name="mageants.product.info.bundle.options.multi" as="multi" template="Mageants_HyvaFrequentlyBought::product/view/type/bundle/option/multi.phtml" />
+                    <block class="Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option\Radio" name="mageants.product.info.bundle.options.radio" as="radio" template="Mageants_HyvaFrequentlyBought::product/view/type/bundle/option/radio.phtml">
+                        <arguments>
+                            <argument name="tier_price_renderer" xsi:type="object">
+                    \Magento\Bundle\Block\DataProviders\OptionPriceRenderer</argument>
+                        </arguments>
+                    </block>
+                    <block class="Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option\Checkbox" name="mageants.product.info.bundle.options.checkbox" as="checkbox" template="Mageants_HyvaFrequentlyBought::product/view/type/bundle/option/checkbox.phtml">
+                        <arguments>
+                            <argument name="tier_price_renderer" xsi:type="object">
+                    \Magento\Bundle\Block\DataProviders\OptionPriceRenderer</argument>
+                        </arguments>
+                    </block>
+                </block>
+                <block class="Magento\Catalog\Block\Product\View" name="mageants.product.info.bundle.price" template="Mageants_HyvaFrequentlyBought::product/view/type/bundle/price.phtml">
+                    <arguments>
+                        <argument name="product_view_model" xsi:type="object">Hyva\Theme\ViewModel\ProductPage</argument>
+                    </arguments>
+                </block>
+                <block class="Magento\Catalog\Block\Product\Price" name="mageants.product.info.price" template="Mageants_HyvaFrequentlyBought::product/view/price.phtml" />
+            </block>
+        </referenceBlock>
+        <referenceBlock name="mageants.frequently.bought.together" remove="true" />
+    </body>
+</page>

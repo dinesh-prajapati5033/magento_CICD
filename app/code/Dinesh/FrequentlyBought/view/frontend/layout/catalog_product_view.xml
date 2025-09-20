@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category  Dinesh FrequentlyBought
+ * @package   Dinesh_FrequentlyBought
+ * @copyright Copyright (c) 2017 Dinesh
+ * @author    Dinesh Team <support@dinesh.com>
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <!-- <css src="Dinesh_FrequentlyBought::css/style.css"/> -->
+        <!-- <css src="Magento_Swatches::css/swatches.css"/> -->
+    </head>
+    <body>
+        <referenceContainer name="content">
+            <container name="Dinesh.frequently.bought.together" htmlTag="div" htmlClass="dinesh-frequently-bought-together-block" after="product.info.details">
+                <block class="Dinesh\FrequentlyBought\Block\Product\ProductList\FrequentlyBought" name="dinesh.frequently.bought.together" template="Dinesh_FrequentlyBought::product/list/items.phtml" ifconfig="fbt_section/bought_together_settings/enable_disable">
+                    <block class="Magento\Catalog\Block\Product\View\Options" name="dinesh.frequently.bought.product.info.options" as="frequently_bought_product_options" template="Dinesh_FrequentlyBought::product/view/options.phtml">
+                        <block class="Magento\Catalog\Block\Product\View\Options\Type\DefaultType" as="default" template="product/view/options/type/default.phtml"/>
+                        <block class="Magento\Catalog\Block\Product\View\Options\Type\Text" as="text" template="Dinesh_FrequentlyBought::product/view/options/type/text.phtml"/>
+                        <block class="Magento\Catalog\Block\Product\View\Options\Type\File" as="file" template="Dinesh_FrequentlyBought::product/view/options/type/file.phtml"/>
+                        <block class="Magento\Catalog\Block\Product\View\Options\Type\Select" as="select" template="Dinesh_FrequentlyBought::product/view/options/type/select.phtml"/>
+                        <block class="Dinesh\FrequentlyBought\Block\Product\View\Options\Type\Date" as="date" template="Dinesh_FrequentlyBought::product/view/options/type/date.phtml"/>
+                    </block>
+                    <block class="Magento\Bundle\Block\Catalog\Product\View\Type\Bundle" name="dinesh.fbt.product.info.bundle.options" as="type_bundle_options" template="Dinesh_FrequentlyBought::product/view/type/bundle/options.phtml" before="-">
+                        <block class="Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option\Select" name="dinesh.fbt.product.info.bundle.options.select" as="select" template="Dinesh_FrequentlyBought::product/view/type/bundle/option/select.phtml"/>
+                        <block class="Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option\Multi" name="dinesh.fbt.product.info.bundle.options.multi" as="multi" template="Dinesh_FrequentlyBought::product/view/type/bundle/option/multi.phtml"/>
+                        <block class="Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option\Radio" name="dinesh.fbt.product.info.bundle.options.radio" as="radio" template="Dinesh_FrequentlyBought::product/view/type/bundle/option/radio.phtml"/>
+                        <block class="Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option\Checkbox" name="dinesh.fbt.product.info.bundle.options.checkbox" as="checkbox" template="Dinesh_FrequentlyBought::product/view/type/bundle/option/checkbox.phtml"/>
+                    </block>
+                </block>
+            </container>
+        </referenceContainer>
+    </body>
+</page>

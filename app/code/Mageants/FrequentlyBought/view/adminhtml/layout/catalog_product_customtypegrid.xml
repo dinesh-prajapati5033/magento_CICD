@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category  Mageants FrequentlyBought
+ * @package   Mageants_FrequentlyBought
+ * @copyright Copyright (c) 2017 Mageants
+ * @author    Mageants Team <support@mageants.com>
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/layout_generic.xsd">
+    <container name="root" label="Root">
+        <block class="Mageants\FrequentlyBought\Block\Adminhtml\Catalog\Product\Edit\Tab\Customtype"
+               name="catalog.product.edit.tab.customtype"/>
+    </container>
+</layout>

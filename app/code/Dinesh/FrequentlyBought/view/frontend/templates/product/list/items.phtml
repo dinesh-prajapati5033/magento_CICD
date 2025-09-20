@@ -1,0 +1,249 @@
+<?php
+/**
+ * @category  Dinesh FrequentlyBought
+ * @package   Dinesh_FrequentlyBought
+ * @copyright Copyright (c) 2017 Dinesh
+ * @author    Dinesh Team <support@dinesh.com>
+ */
+$product = $block->getCurrentProduct();
+$productId = $product->getId();
+$numberOfProducts = $block->getConfigValue('fbt_section/bought_together_settings/number_products');
+$items = $product->getCustomtypeProducts();
+$items = array_slice($items, 0, $numberOfProducts);
+$title = $block->getConfigValue('fbt_section/bought_together_settings/frequently_title');
+$saperaterImage = $block->getConfigValue('fbt_section/bought_together_settings/saperator_image');
+
+$mediaUrl = $block->mediaUrl();
+$saperaterImageUrl = str_replace('/uae', '', $mediaUrl) . 'fbt/images/' . $saperaterImage;
+$escaper = $block;
+if (count($items) > 0): ?>
+    <!-- <hr> -->
+
+    <div class="dinesh-fbt-content">
+    <?php if ($title): ?>
+        <div class="dinesh-fbt-title block-title title"
+        style="margin: 10px;text-align: center;font-size: medium;
+            color: #333399;text-transform: capitalize;">
+            <h2 id="block-dinesh-fbt-heading" style="font-weight: 600">
+                <?=$escaper->escapeHtml($title);?>
+            </h2>
+        </div>
+    <?php endif;?>
+        <form
+        id="dinesh-fbt-form"
+        method="post" enctype="multipart/form-data"
+        action="<?=$escaper->escapeUrl($escaper->getUrl('frequentlybought/add/all'));?>"
+        data-mage-init='{"validation": {}, "frequentlyBought": <?=$escaper->escapeHtmlAttr($escaper->getJsonConfig())?>}'>
+            <div class="page-products">
+                <div class="wrapper grid products-grid dinesh-fbt-rows">
+                <div class="dinesh-fbt-price-box frequentlybought-summary">
+                        <div class="frequentlybought-summary-title-main">
+                            <?=$escaper->escapeHtml(__("Frequently Bought Together"));?>
+                        </div>
+                        <div class="frequentlybought-summary-title">
+                            <?=$escaper->escapeHtml(__("Summary"));?>
+                        </div>
+                        <div class="dinesh-fbt-total-price">
+                            <div class="price-content">
+                                <span class="dinesh-fbt-accessories-label">
+                                    <?=$escaper->escapeHtml(__('Selected Product :'));?>
+                                </span>
+                                <span class="dinesh-fbt-accessories-count">
+
+                                </span>
+                            </div>
+                            <div class="price-content">
+                                <span class="dinesh-fbt-total-price-label">
+                                    <?=$escaper->escapeHtml(__('Selected Product Total Price :'));?>
+                                </span>
+                                <span data-price-amount="0" class="dinesh-fbt-price-wrapper">
+                                    <span class="dinesh-fbt-price">
+                                        <?=/* @noEscape */$escaper->getPriceWithCurrency(0);?>
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="dinesh-fbt-buttons">
+                            <div class="dinesh-fbt-add-to-cart">
+                                <button
+                                type="submit"
+                                title="<?=$escaper->escapeHtml(__('Add selected to cart'));?>"
+                                class="action primary price-btn">
+                                    <span><?=$escaper->escapeHtml(__('ADD TO CART'));?></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <ol class="dinesh-fbt-image-box products list items product-items">
+                        <li
+                        class="item product first-item product-item dinesh-fbt-item dinesh-fbt-item-<?=
+$escaper->escapeHtmlAttr($productId);?>">
+                            <div class="product-item-plus dinesh-fbt-plus-<?=$escaper->escapeHtmlAttr($productId);?>">
+                                <?php if ($saperaterImage): ?>
+                                    <img src="<?=$escaper->escapeUrl($saperaterImageUrl);?>" alt="+" />
+                                <?php else: ?>
+                                    <span>+</span>
+                                <?php endif;?>
+                            </div>
+                            <div class="product-item-container">
+                                <input
+                                type="checkbox"
+                                class="related-checkbox"
+                                data-dinesh-fbt-product-id="<?=$escaper->escapeHtmlAttr($productId);?>"
+                                data-price-amount="<?=$escaper->escapeHtmlAttr($escaper->getPriceAmount($product));?>"
+                                id="dinesh-fbt-prd-checkbox-<?=$escaper->escapeHtmlAttr($productId);?>"
+                                name="dinesh_fbt[<?=$escaper->escapeHtmlAttr($productId);?>]"
+                                <?php if (!$product->getIsSalable()) {echo 'disabled="disabled"';}?> />
+                            </div>
+                            <div class="product-item-image">
+                                <?=/* @noEscape */
+$escaper->getImage($product, 'related_products_list', ['width' => 200])->toHtml();
+?>
+                            </div>
+                            <div class="product-item-details">
+                                <div class="dinesh-fbt-checkbox-label">
+                                    <strong><?=$escaper->escapeHtml(__('This item:'));?></strong>
+                                    <span class="dinesh-fbt-name-<?=$escaper->escapeHtmlAttr($productId);?>">
+                                        <?=$escaper->escapeHtml($product->getName());?>
+                                    </span>
+                                    <span
+                                    class="item-price dinesh-fbt-price-<?=$escaper->escapeHtmlAttr($productId);?>"
+                                    data-price-amount="<?=
+$escaper->escapeHtmlAttr($escaper->getPriceAmount($product));?>">
+                                        <?=/* @noEscape */$escaper->getPriceWithCurrency(
+    $escaper->getPriceAmount($product)
+);?>
+                                        </span>
+                                    <?php if (!$product->getIsSalable()): ?>
+                                        <span class="dinesh-fbt-out-of-stock">
+                                            <?=$escaper->escapeHtml(__('Out of stock'))?>
+                                        </span>
+                                    <?php endif;?>
+                                    <span class="dinesh-fbt-detail"></span>
+                                </div>
+                            </div>
+                            <div class="product-item-container">
+                                <div class="fieldset dinesh-fbt-option-product dinesh-fbt-option-wrapper-<?=
+$escaper->escapeHtmlAttr($productId);?> dinesh-fbt-hidden">
+                                    <?=/* @noEscape */$escaper->getOptionWrapper();?>
+                                </div>
+                                <div class="fieldset dinesh-fbt-option-product dinesh-fbt-custom-option-<?=
+$escaper->escapeHtmlAttr($productId);?> dinesh-fbt-hidden">
+                                    <?=/* @noEscape */$escaper->getCustomOption();?>
+                                </div>
+                            </div>
+                        </li>
+                        <?php $i = 1;?>
+                        <?php foreach ($items as $_item): ?>
+                            <?php $_item = $escaper->getLoadProductById($_item->getId());?>
+
+                            <li
+                            class="item product product-item dinesh-fbt-item dinesh-fbt-item-<?=
+$escaper->escapeHtmlAttr($_item->getId());?>">
+                            <?php
+if (count($items) > $i) {
+    ?>
+                                <div
+                                class="product-item-plus dinesh-fbt-plus-<?=
+    $escaper->escapeHtmlAttr($_item->getId());?>">
+                                    <?php if ($saperaterImage): ?>
+                                        <img src="<?=$escaper->escapeUrl($saperaterImageUrl);?>" alt="+" />
+                                    <?php else: ?>
+                                        <span>+</span>
+                                    <?php endif;?>
+                                </div>
+                                <?php $i++;
+
+}?>
+                                <div class="product-item-container">
+                                    <input
+                                    type="checkbox"
+                                    class="related-checkbox"
+                                    data-dinesh-fbt-product-id="<?=$escaper->escapeHtmlAttr($_item->getId());?>"
+                                    data-price-amount="<?=$escaper->escapeHtmlAttr($escaper->getPriceAmount($_item));?>"
+                                    id="dinesh-prd-fbt-checkbox-<?=$escaper->escapeHtmlAttr($_item->getId());?>"
+                                    name="dinesh_fbt[<?=$escaper->escapeHtmlAttr($_item->getId());?>]"
+                                    <?php if (!$_item->getIsSalable()) {echo 'disabled="disabled"';}?> />
+                                </div>
+                                <div class="product-item-image">
+                                    <a
+                                    href="<?=$escaper->escapeUrl($escaper->getProductUrl($_item));?>"
+                                    class="product photo product-item-photo dinesh-fbt-url-product">
+                                        <?=/* @noEscape */$escaper->getImage(
+    $_item,
+    'related_products_list',
+    ['width' => 200]
+)->toHtml();?>
+                                    </a>
+                                </div>
+                                <?php //print_r(get_class_methods($escaper));?>
+                                <span class="product-item-details">
+                                    <div class="dinesh-fbt-checkbox-label">
+                                        <span
+                                        class="item-price dinesh-fbt-price-<?=
+$escaper->escapeHtmlAttr($_item->getId());?>"
+                                        data-price-amount="<?=
+$escaper->escapeHtmlAttr($escaper->getPriceAmount($_item));?>">
+                                            <?=/* @noEscape */$escaper->getPriceWithCurrency(
+    $escaper->getProductPrice($_item)
+);?>
+                                        </span>
+                                        <a href="<?=$escaper->escapeUrl($escaper->getProductUrl($_item));?>">
+                                            <?=$escaper->escapeHtml($_item->getName());?>
+                                        </a>
+                                        <?php if (!$_item->getIsSalable()): ?>
+                                            <span class="dinesh-fbt-out-of-stock">
+                                                <?=$escaper->escapeHtml(__('Out of stock'));?>
+                                            </span>
+                                        <?php endif;?>
+                                        <span class="dinesh-fbt-detail"></span>
+                                    </div>
+                                </span>
+                                <div class="product-item-container">
+                                    <div
+                                    class="fieldset dinesh-fbt-option-product dinesh-fbt-option-wrapper-<?=
+$escaper->escapeHtmlAttr($_item->getId());?> dinesh-fbt-hidden">
+                                        <?=/* @noEscape */$escaper->getOptionWrapper($_item->getId());?>
+                                    </div>
+                                    <div
+                                    class="fieldset dinesh-fbt-option-product dinesh-fbt-custom-option-<?=
+$escaper->escapeHtmlAttr($_item->getId());?> dinesh-fbt-hidden">
+                                        <?=/* @noEscape */$escaper->getCustomOption($_item->getId());?>
+                                    </div>
+                                </div>
+                            </li>
+                        <?php endforeach;?>
+                    </ol>
+                    <div class="mp-clear"></div>
+                </div>
+            </div>
+        </form>
+    </div>
+<?php endif;?>
+
+<script>
+require([
+    'jquery',
+], function ($) {
+    if(performance.navigation.type == 2) {
+        jQuery(document).ready(function(){
+            setTimeout(function(){
+                jQuery("input[type='checkbox'][name^='dinesh_fbt']").each(function(){
+                    if(jQuery(this).prop("checked") == true){
+                        jQuery(this).trigger("click");
+                    }
+                    else if(jQuery(this).prop("checked") == false){
+                    }
+                });
+                jQuery("input[type='checkbox'][name^='dinesh_fbt']").each(function(){
+                    if(jQuery(this).prop("checked") == true){
+                    }
+                    else if(jQuery(this).prop("checked") == false){
+                     jQuery(this).trigger("click");
+                    }
+                });
+            },1000);
+        });
+    }
+});
+</script>

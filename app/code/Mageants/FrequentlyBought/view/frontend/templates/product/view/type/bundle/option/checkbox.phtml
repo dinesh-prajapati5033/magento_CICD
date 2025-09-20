@@ -1,0 +1,84 @@
+<?php
+/**
+ * @category  Mageants FrequentlyBought
+ * @package   Mageants_FrequentlyBought
+ * @copyright Copyright (c) 2017 Mageants
+ * @author    Mageants Team <support@mageants.com>
+ */
+$_option = $block->getOption() ?>
+<?php $productId = $block->getProduct()->getId();?>
+<?php $_selections = $_option->getSelections() ?>
+<div
+class="mg-fbt-field-option field option <?=
+$block->escapeHtmlAttr(($_option->getRequired()) ? ' required': ''); ?>"
+id="mp-fbt-bundle-option-<?=
+$block->escapeHtmlAttr($productId); ?>-<?= $block->escapeHtmlAttr($_option->getId());?>"
+data-price-amount="0">
+    <label class="label">
+        <span><?= $block->escapeHtml($_option->getTitle()) ?></span>
+    </label>
+    <div class="control">
+        <div class="nested options-list mg-fbt-options-list">
+            <?php if ($block->showSingle()): ?>
+                <?= /* @noEscape */ $block->getSelectionQtyTitlePrice($_selections[0]) ?>
+                <input type="hidden"
+                class="bundle-option-<?=
+                $block->escapeHtmlAttr($productId); ?>-<?=
+                $block->escapeHtmlAttr($_option->getId()) ?>  product bundle option"
+                data-option-id="<?= $block->escapeHtmlAttr($_option->getId()) ?>"
+                name="bundle_option[<?=
+                $block->escapeHtmlAttr($productId); ?>][<?=
+                $block->escapeHtmlAttr($_option->getId()) ?>]"
+                value="<?= $block->escapeHtmlAttr($_selections[0]->getSelectionId()) ?>"/>
+            <?php else: ?>
+                <?php foreach ($_selections as $_selection): ?>
+                    <div class="field choice">
+                        <input
+                        class="mp-fbt-multi-select bundle-option-<?=
+                        $block->escapeHtmlAttr($productId); ?>-<?=
+                        $block->escapeHtmlAttr($_option->getId()) ?>
+                        checkbox product bundle option change-container-classname"
+                        data-price-amount="0"
+                        data-option-id="<?= $block->escapeHtmlAttr($_option->getId()) ?>"
+                        id="bundle-option-<?=
+                        $block->escapeHtmlAttr($productId); ?>-<?=
+                        $block->escapeHtmlAttr($_option->getId()) ?>-<?=
+                        $block->escapeHtmlAttr($_selection->getSelectionId()) ?>"
+                        type="checkbox"
+                        <?php if ($_option->getRequired()) {
+                            $block->escapeHtml('data-validate="{\'validate-one-required-by-name\'
+                                :
+                                \'input[name^=&quot;bundle_option[' . $productId . '][' . $_option->getId() . ']&quot;]
+                                :
+                                checked\'}"');
+                        } ?>
+                        name="bundle_option[<?=
+                        $block->escapeHtmlAttr($productId); ?>][<?=
+                        $block->escapeHtmlAttr($_option->getId()) ?>][<?=
+                        $block->escapeHtmlAttr($_selection->getId()) ?>]"
+                        data-selector="bundle_option[<?=
+                        $block->escapeHtmlAttr($productId); ?>][<?=
+                        $block->escapeHtmlAttr($_option->getId()) ?>][<?=
+                        $block->escapeHtmlAttr($_selection->getId()) ?>]"
+                        <?php if ($block->isSelected($_selection)) { echo ' checked="checked"';} ?>
+                        <?php if (!$_selection->isSaleable()) { echo ' disabled="disabled"';} ?>
+                        value="<?= $block->escapeHtmlAttr($_selection->getSelectionId()) ?>"/>
+                        <label
+                        class="label"
+                        for="bundle-option-<?=
+                        $block->escapeHtmlAttr($productId); ?>-<?=
+                        $block->escapeHtmlAttr($_option->getId()) ?>-<?=
+                        $block->escapeHtmlAttr($_selection->getSelectionId()) ?>">
+                            <span>
+                                <?= /* @noEscape */ $block->getSelectionQtyTitlePrice($_selection) ?>
+                            </span>
+                        </label>
+                    </div>
+                <?php endforeach; ?>
+                <div id="bundle-option-<?=
+                $block->escapeHtmlAttr($productId); ?>-<?=
+                $block->escapeHtmlAttr($_option->getId()) ?>-container"></div>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category  Dinesh FrequentlyBought
+ * @package   Dinesh_FrequentlyBought
+ * @copyright Copyright (c) 2017 Dinesh
+ * @author    Dinesh Team <support@dinesh.com>
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/layout_generic.xsd">
+    <container name="root" label="Root">
+        <block class="Dinesh\FrequentlyBought\Block\Adminhtml\Catalog\Product\Edit\Tab\Customtype"
+               name="catalog.product.edit.tab.customtype"/>
+    </container>
+</layout>

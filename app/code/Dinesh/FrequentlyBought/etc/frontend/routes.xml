@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * @category  Dinesh FrequentlyBought
+ * @package   Dinesh_FrequentlyBought
+ * @copyright Copyright (c) 2017 Dinesh
+ * @author    Dinesh Team <support@dinesh.com>
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
+    <router id="standard">
+        <route id="frequentlybought" frontName="frequentlybought">
+            <module name="Dinesh_FrequentlyBought"/>
+        </route>
+    </router>
+</config>

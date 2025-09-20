@@ -1,0 +1,27 @@
+<?php
+/**
+ * @category  Mageants FrequentlyBought
+ * @package   Mageants_FrequentlyBought
+ * @copyright Copyright (c) 2017 Mageants
+ * @author    Mageants Team <support@mageants.com>
+ */
+$_option = $block->getOption();
+$class = ($_option->getIsRequire()) ? ' required' : '';
+$productId = $block->getProduct()->getId();
+?>
+<div class="field<?= $block->escapeHtmlAttr($class); ?>">
+    <label class="label" for="select_<?= $block->escapeHtmlAttr($_option->getId()) ?>">
+        <span><?= $block->escapeHtml($_option->getTitle()) ?></span>
+    </label>
+    <div class="control">
+        <?= $block->getValuesHtml() ?>
+        <?php if ($_option->getIsRequire()): ?>
+            <?php if ($_option->getType() == \Magento\Catalog\Model\Product\Option::OPTION_TYPE_RADIO
+            || $_option->getType() == \Magento\Catalog\Model\Product\Option::OPTION_TYPE_CHECKBOX): ?>
+                <span
+                id="options-<?= $block->escapeHtmlAttr($_option->getId()) ?>-container">
+                </span>
+            <?php endif; ?>
+        <?php endif;?>
+    </div>
+</div>

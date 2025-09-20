@@ -1,0 +1,69 @@
+<?php
+/**
+ * @category  Mageants FrequentlyBought
+ * @package   Mageants_FrequentlyBought
+ * @copyright Copyright (c) 2017 Mageants
+ * @author    Mageants Team <support@mageants.com>
+ */
+$_option = $block->getOption();
+$class = ($_option->getIsRequire()) ? ' required' : '';
+$productId = $block->getProduct()->getId();
+?>
+<div class="field<?php if ($_option->getType() == \Magento\Catalog\Model\Product\Option::OPTION_TYPE_AREA) {
+    echo ' textarea'; } ?>
+    <?= $block->escapeHtmlAttr($class) ?>">
+    <label class="label" for="options_<?= $block->escapeHtmlAttr($_option->getId()) ?>_text">
+        <span><?= $block->escapeHtml($_option->getTitle()) ?></span>
+        <?= /* @noEscape */ $block->getFormatedPrice() ?>
+    </label>
+
+    <div class="control">
+        <?php if ($_option->getType() == \Magento\Catalog\Model\Product\Option::OPTION_TYPE_FIELD): ?>
+            <?php $_textValidate = null;
+            if ($_option->getIsRequire()) {
+                $_textValidate['required'] = true;
+            }
+            if ($_option->getMaxCharacters()) {
+                $_textValidate['maxlength'] = $_option->getMaxCharacters();
+            }
+            ?>
+            <input type="text"
+            id="options_<?= $block->escapeHtmlAttr($_option->getId()) ?>_text"
+            class="input-text product-custom-option"
+            <?php if (!empty($_textValidate)) {?>
+            data-validate="<?= $block->escapeHtmlAttr(json_encode($_textValidate));?>"
+            <?php } ?>
+            name="options[<?=
+            $block->escapeHtmlAttr($_option->getId()) ?>]"
+            data-selector="options[<?=
+            $block->escapeHtmlAttr($_option->getId()) ?>]"
+            value="<?= $block->escapeHtml($block->getDefaultValue()) ?>"/>
+        <?php elseif ($_option->getType() == \Magento\Catalog\Model\Product\Option::OPTION_TYPE_AREA): ?>
+            <?php $_textAreaValidate = null;
+            if ($_option->getIsRequire()) {
+                $_textAreaValidate['required'] = true;
+            }
+            if ($_option->getMaxCharacters()) {
+                $_textAreaValidate['maxlength'] = $_option->getMaxCharacters();
+            }
+            ?>
+            <textarea id="options_<?= $block->escapeHtmlAttr($_option->getId()) ?>_text"
+                class="product-custom-option"
+                <?php if (!empty($_textAreaValidate)) {?>
+                    data-validate="<?= $block->escapeHtmlAttr(json_encode($_textAreaValidate));?>"
+                <?php } ?>
+                name="options[<?=
+                $block->escapeHtmlAttr($_option->getId()) ?>]"
+                data-selector="options[<?=
+                $block->escapeHtmlAttr($_option->getId()) ?>]"
+                rows="5"
+                cols="25">
+                <?= $block->escapeHtml($block->getDefaultValue()) ?>
+            </textarea>
+        <?php endif; ?>
+        <?php if ($_option->getMaxCharacters()): ?>
+            <p class="note"><?= $block->escapeHtml(__('Maximum number of characters:')) ?>
+                <strong><?= $block->escapeHtml($_option->getMaxCharacters()) ?></strong></p>
+        <?php endif; ?>
+    </div>
+</div>

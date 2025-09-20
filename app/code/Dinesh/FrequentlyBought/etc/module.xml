@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category  Dinesh FrequentlyBought
+ * @package   Dinesh_FrequentlyBought
+ * @copyright Copyright (c) 2017 Dinesh
+ * @author    Dinesh Team <support@dinesh.com>
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
+    <module name="Dinesh_FrequentlyBought" setup_version="2.0.6"></module>
+</config>

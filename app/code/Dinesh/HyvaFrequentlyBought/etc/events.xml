@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * @category Dinesh HyvaFrequentlyBought
+ * @package Dinesh_HyvaFrequentlyBought
+ * @copyright Copyright (c) 2023 Dinesh
+ * @author Dinesh Team <info@dinesh.com>
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <!-- <event name="hyva_config_generate_before">
+        <observer name="HyvaFrequentlyBought" instance="Dinesh\HyvaFrequentlyBought\Observer\FrequentlyBought"/>
+    </event> -->
+</config>

@@ -1,0 +1,10 @@
+/vendor/
+/var/
+/pub/static/
+/generated/
+/app/etc/env.php
+/app/etc/config.php
+auth.json
+.env
+.idea/
+/node_modules/

@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category  Dinesh FrequentlyBought
+ * @package   Dinesh_FrequentlyBought
+ * @copyright Copyright (c) 2017 Dinesh
+ * @author    Dinesh Team <support@dinesh.com>
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="dinesh" translate="label" sortOrder="10">
+            <label>Dinesh</label>
+       </tab>
+        <section id="fbt_section" translate="label" sortOrder="300" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Frequently Bought Together</label>
+            <tab>dinesh</tab>
+            <resource>Dinesh_FrequentlyBought::config</resource>
+
+            <group id="bought_together_settings" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General Configuration</label>
+                <field id="enable_disable" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable</label>
+                    <comment>Enable/Disable Module</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+
+                <field id="frequently_title" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Frontend Title</label>
+                    <comment>Frontend block title. It will appear above frequently bought together products</comment>
+                </field>
+
+               <field id="fbt_section_position" translate="label" type="select" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Block Position</label>
+                    <source_model>Dinesh\FrequentlyBought\Model\Source\Position</source_model>
+                    <comment>Specify block position to display frequently bought together products</comment>
+                </field>
+
+                <field id="number_products" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label> Number of products </label>
+                    <comment>Enter number of products to display on frontend</comment>
+                    <validate>validate-zero-or-greater integer</validate>
+                </field>
+
+                 <field id="saperator_image" translate="label" type="image" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Separator Image</label>
+                    <backend_model>Dinesh\FrequentlyBought\Model\Config\Backend\Image</backend_model>
+                    <base_url type="media" scope_info="1">fbt/images</base_url>
+                    <comment><![CDATA[Allowed file types: jpg, jpeg, gif, png, svg]]></comment>
+                </field>
+                
+            </group>
+        </section>
+    </system>
+</config>

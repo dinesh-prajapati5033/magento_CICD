@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category  Dinesh FrequentlyBought
+ * @package   Dinesh_FrequentlyBought
+ * @copyright Copyright (c) 2017 Dinesh
+ * @author    Dinesh Team <support@dinesh.com>
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference
+        for="Magento\CatalogImportExport\Model\Import\Product"
+        type="Dinesh\FrequentlyBought\Model\CatalogImportExport\Import\Product"
+    />
+
+    <preference
+        for="Magento\CatalogImportExport\Model\Export\Product"
+        type="Dinesh\FrequentlyBought\Model\CatalogImportExport\Export\Product"
+    />
+</config>

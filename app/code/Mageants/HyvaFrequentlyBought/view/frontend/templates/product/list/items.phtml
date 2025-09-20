@@ -1,0 +1,367 @@
+<?php
+
+/**
+ * @category  Mageants HyvaFrequentlyBought
+ * @package   Mageants_HyvaFrequentlyBought
+ * @copyright Copyright (c) 2023 Mageants
+ * @author    Mageants Team <support@mageants.com>
+ */
+
+use Hyva\Theme\ViewModel\HeroiconsOutline;
+
+$heroicons = $viewModels->require(HeroiconsOutline::class);
+$product = $block->getCurrentProduct();
+$productId = $product->getId();
+$numberOfProducts = $block->getConfigValue('fbt_section/bought_together_settings/number_products');
+$items = $product->getCustomtypeProducts();
+$items = array_slice($items, 0, $numberOfProducts);
+$title = $block->getConfigValue('fbt_section/bought_together_settings/frequently_title');
+$saperaterImage = $block->getConfigValue('fbt_section/bought_together_settings/saperator_image');
+$mediaUrl = $block->mediaUrl();
+$saperaterImageUrl = str_replace('/uae', '', $mediaUrl) . 'fbt/images/' . $saperaterImage;
+if (count($items) > 0): ?>
+    <main class="w-full" x-data="ftbConfigurable()">
+        <form id="fbt" method="post" enctype="multipart/form-data"
+            action="<?= $block->escapeUrl($block->getUrl('frequentlybought/add/all')); ?>">
+            <?= /* @noEscape */ $block->getBlockHtml('formkey') ?>
+            <?php if ($title): ?>
+                <h1 class="content-center flex font-bold justify-center sm:text-lg md:text-4xl my-5">
+                    <?= /* @noEscape */ $title; ?>
+                </h1>
+            <?php endif; ?>
+            <div class="flex-wrap flex">
+                <div class="md:px-2 md:w-2/1 lg:w-2/3 w-full">
+                    <section class="items-start gap-x-12 gap-y-5 grid grid-cols-1
+                     justify-center justify-items-center lg:grid-cols-3 mb-5
+                     first-letter:md:grid-cols-2 mr-3 mt-10">
+                        <div class="bg-white shadow-md rounded-xl w-full">
+                        <input type="checkbox" data-mageants-fbt-product-id="<?=
+                        $block->escapeHtmlAttr($productId); ?>" data-price-amount="<?=
+                        $block->escapeHtmlAttr($block->getPriceAmount($product)); ?>" 
+                        id="mageants-prd-fbt-checkbox-<?= $block->escapeHtmlAttr($productId); ?>" 
+                        name="mageants_fbt[<?= $block->escapeHtmlAttr($productId); ?>]"
+                        class="m-4"
+                        x-init="checkProduct($el)" @click="checkProduct($el);priceUpdate($el);" 
+                        checked
+                        <?php if (!$product->getIsSalable()) {echo 'disabled="disabled"'; } ?> />
+                            <div class="w-full object-cover rounded-t-xl">
+                                <a href="<?= $block->escapeUrl($block->getProductUrl($product)); ?>">
+                                    <?= /* @noEscape */ $block
+                                    ->getImage($product, 'product_base_image', ['class' => 'photo image'])
+                                    ->toHtml(); ?>
+                                </a>
+                            </div>
+                            <div class="px-4 py-3 w-full">
+                                <span class="text-gray-900 mr-3 uppercase text-xs">
+                                    <?= $block->escapeHtml(__('This item:')); ?>
+                                </span>
+                                <p class="text-lg font-bold text-black block capitalize">
+                                    <?= $block->escapeHtml($product->getName()); ?>
+                                </p>
+                                <div class="flex items-center">
+                                    <?php if ($product->getTypeId() == 'bundle'): ?>
+                                        <?= $block->getChildBlock('mageants.product.info.bundle.price')
+                                            ->setData('product', $product)->toHtml();
+                                        ?>
+                                    <?php elseif ($product->getTypeId() == 'grouped'): ?>
+                                        <div x-init="updateGroupProductPrice()">
+                                            <p x-text="updatePrice"></p>
+                                        </div>
+                                    <?php else: ?>
+                                        <?= $block->getChildBlock('mageants.product.info.price')
+                                            ->setData('product', $product)->toHtml();
+                                        ?>
+                                    <?php endif; ?>
+                                        <?php if (!$product->getIsSalable()): ?>
+                                            <span class="mageants-fbt-out-of-stock">
+                                                <?= $block->escapeHtml(__('Out of stock')) ?>
+                                            </span>
+                                        <?php endif; ?>
+                                    </div>
+                                <div class="product-item-container">
+                                    <?php if ($block->getOptionWrapper($productId) != '' ||
+                                     $block->getCustomOption($productId) != ''): ?>
+                                        <button class="show-btn" @click.prevent>
+                                            <p class="show-details text-lg font-bold text-sky-600"></p>
+                                        </button>
+                                        <div class="showDetails hidden"
+                                            x-intersect.once="updateConfigurable($el,
+                                            <?= /* @noEscape */ $productId; ?>)">
+                                            <div class="fieldset">
+                                                <?= /* @noEscape */ $block->getOptionWrapper($productId); ?>
+                                            </div>
+                                            <div class="fieldset ">
+                                                <?= /* @noEscape */ $block->getCustomOption($productId); ?>
+                                            </div>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </div>
+                        <?php foreach ($items as $_item): ?>
+                            
+                            <?php $_item = $block->getLoadProductById($_item->getId()); ?>
+                            <div class="bg-white shadow-md rounded-xl w-full relative">
+                            <input type="checkbox"
+                                data-mageants-fbt-product-id="<?= $block->escapeHtmlAttr($_item->getId()); ?>"
+                                data-price-amount="<?= $block->escapeHtmlAttr($block->getPriceAmount($_item)); ?>"
+                                id="mageants-prd-fbt-checkbox-<?= $block->escapeHtmlAttr($_item->getId()); ?>"
+                                class="m-4" name="mageants_fbt[<?= $block->escapeHtmlAttr($_item->getId()); ?>]"
+                                x-init="checkProduct($el)" @click="checkProduct($el);priceUpdate($el);" checked 
+                                <?php if (!$_item->getIsSalable()) {echo 'disabled="disabled"';} ?> />
+                                <div class="w-full object-cover rounded-t-xl relative">
+                                    <?php if ($saperaterImage): ?>
+                                        <img class="plusSign absolute" width="24"
+                                         src="<?= $block->escapeUrl($saperaterImageUrl);?>" alt="+" />
+                                    <?php else: ?>
+                                        <span class="plusSign absolute text-3xl">+</span>
+                                    <?php endif; ?>
+                                    <a href="<?= $block->escapeUrl($block->getProductUrl($_item)); ?>">
+                                        <?= /* @noEscape */ $block
+                                        ->getImage($_item, 'product_base_image', ['class' => 'photo image'])
+                                        ->toHtml(); ?>
+                                    </a>
+                                </div>
+                                <div class="px-4 py-3 w-full">
+                                    <a href="<?= $block->escapeUrl($block->getProductUrl($_item)); ?>">
+                                        <p class="text-lg font-bold text-black block capitalize">
+                                            <?= $block->escapeHtml($_item->getName()); ?>
+                                        </p>
+                                    </a>
+                                    <div class="flex items-center">
+                                            <?php if ($_item->getTypeId() == 'bundle'): ?>
+                                                <?= $block->getChildBlock('mageants.product.info.bundle.price')
+                                                ->setData('product', $_item)->toHtml();
+                                                ?>
+                                            <?php elseif ($_item->getTypeId() == 'grouped'): ?>
+                                                <div x-init="updateGroupProductPrice()">
+                                                    <p x-text="updatePrice"></p>
+                                                </div>
+                                            <?php else: ?>
+                                                <?= $block->getChildBlock('mageants.product.info.price')
+                                                ->setData('product', $_item)->toHtml();
+                                                ?>
+                                            <?php endif; ?>
+                                        <?php if (!$_item->getIsSalable()): ?>
+                                            <span class="mageants-fbt-out-of-stock">
+                                                <?= $block->escapeHtml(__('Out of stock')) ?>
+                                            </span>
+                                        <?php endif; ?>
+                                    </div>
+                                    <div class="product-item-container">
+                                        <?php if ($block->getOptionWrapper($_item->getId()) != '' ||
+                                             $block->getCustomOption($_item->getId()) != ''): ?>
+                                            <button class="show-btn" @click.prevent>
+                                                <p class="show-details text-lg font-bold text-sky-600"></p>
+                                            </button>
+                                            <div class="showDetails hidden"
+                                                x-intersect.once="updateConfigurable($el,
+                                                <?= /* @noEscape */ $_item->getId(); ?>)">
+                                                <div class="fieldset">
+                                                    <?= /* @noEscape */ $block->getOptionWrapper($_item->getId()); ?>
+                                                </div>
+                                                <div class="fieldset">
+                                                    <?= /* @noEscape */ $block->getCustomOption($_item->getId()); ?>
+                                                </div>
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </section>
+                </div>
+                <aside class="bg-slate-100 md:mt-10 p-7 rounded-t-xl
+                    self-start shadow-md sticky top-5 lg:w-1/3 md:w-2/2 w-full">
+                    <h2 class="text-center text-xl">
+                        <?= $block->escapeHtml(__("Frequently Bought Together")); ?>
+                    </h2>
+                    <h3 class="border-y border-y-slate-300 mb-5 mt-5 py-2 text-center text-lg">
+                        <?= $block->escapeHtml(__("Summary")); ?>
+                    </h3>
+                    <table class="leading-normal mb-2 min-w-full">
+                        <tbody>
+                            <tr>
+                                <td><?= $block->escapeHtml(__('Selected Product :')); ?></td>
+                                <td class="font-semibold text-right"><strong x-text="count"></strong></td>
+                            </tr>
+                            <tr x-init="totalPrice()">
+                                <td><?= $block->escapeHtml(__('Selected Product Total Price :')); ?></td>
+                                <td class="font-semibold text-right"><strong x-text="finalPrice"></strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <button id="addto-fbt" @click="formValidate" class="w-auto btn btn-primary justify-center text-sm
+                        mr-auto" aria-label="Add to Cart Impulse Duffle">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+                         stroke="currentColor" viewBox="0 0 24 24"
+                          class="h-6 w-6 border-current inline" width="25" height="25" aria-hidden="true">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                           d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13 5.4 5M7 13l-2.293
+                            2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8
+                            2a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z"></path>
+                        </svg>
+                        <span class="ml-2 inline md:ml-0 md:hidden lg:ml-2 lg:inline">
+                            <?= $escaper->escapeHtml(__('Add to Cart')) ?>
+                        </span>
+                    </button>
+                </aside>
+            </div>
+        </form>
+    </main>
+<?php endif; ?>
+<script>
+    function ftbConfigurable() {
+        return {
+            open: false,
+            updatePrice: hyva.formatPrice(0),
+            finalPrice: hyva.formatPrice(0),
+            count: 0,
+            total: 0,
+            show:false,
+            showDetail : "<?= $escaper->escapeHtml(__('Show Details')) ?>",
+            hideDetail : "<?= $escaper->escapeHtml(__('Hide Details')) ?>",
+            updateConfigurable(element, id) {
+                setTimeout(() => {
+                    var elements = element.querySelectorAll('[name^="super_attribute"]');
+                    elements.forEach(function(e) {
+                        var currentName = e.getAttribute('name');
+                        var newName = currentName.replace('super_attribute', 'super_attribute[' + id + ']');
+                        e.setAttribute('name', newName);
+                    });
+                }, 500);
+            },
+            checkProduct(element) {
+                let parent = element.parentNode;
+                if (parent.querySelectorAll(".showDetails").length > 0) {
+                    if (!element.checked) {
+                        this.count = this.count - 1;
+                        parent.querySelector('.showDetails').classList.add('unselected');
+                    } else {
+                        this.count = this.count + 1;
+                        parent.querySelector('.showDetails').classList.remove('unselected');
+                    }
+                }else{
+                    if (!element.checked) {
+                        this.count = this.count - 1;
+                    } else {
+                        this.count = this.count + 1;
+                    }
+                }
+            },
+            updateGroupProductPrice() {
+                window.addEventListener('update-fbt-price', (event) => {
+                    this.updatePrice = hyva.formatPrice(event.detail.newValue);
+                });
+            },
+            formValidate(e) {
+                e.preventDefault();
+                this.showDetailsAsync().then(() => {
+                    let isValid = true;
+                    form = document.getElementById('fbt');
+                    const showDetails = document.querySelectorAll('.showDetails');
+                    var firstInvalidElement = null;
+                    showDetails.forEach(item => {
+                        if (item.classList.contains('unselected')) {
+                            return;
+                        } else {
+                            elements = item.querySelectorAll('input,select');
+                            for (var i = 0; i < elements.length; i++) {
+                                var element = elements[i];
+                                if (element.reportValidity && !element.reportValidity()) {
+                                    if (!firstInvalidElement) {
+                                        firstInvalidElement = element;
+                                    }
+                                    if (firstInvalidElement) {
+                                        firstInvalidElement.reportValidity();
+                                        return isValid = false;
+                                    }
+                                }
+                            }
+                        }
+                    });
+                    if (isValid) {
+                        form.submit()
+                    }
+                });
+            },
+            showDetailsAsync() {
+                return new Promise((resolve) => {
+                    const showDetails = document.querySelectorAll('.showDetails');
+                    showDetails.forEach(item => {
+                        if (item.classList.contains('unselected')) {
+                            item.classList.add('hidden');
+                            item.classList.remove('block');
+                            item.parentNode.querySelector('.show-details').innerHTML=this.showDetail;
+                        } else {
+                            item.parentNode.querySelector('.show-details').innerHTML=this.hideDetail;
+                            item.classList.remove('hidden');
+                            item.classList.add('block');
+                        }
+                    });
+                    setTimeout(() => {
+                        resolve();
+                    }, 100);
+                });
+            },
+            totalPrice() {
+                window.addEventListener('update-fbt-total-price', (event) => {
+                    this.total = 0;
+                    let elements = document.querySelectorAll('[name^="mageants_fbt"]');
+                    elements.forEach(e => {
+                        if (e.checked) {
+                            this.total += parseFloat(e.getAttribute('data-price-amount'));
+                            this.finalPrice = hyva.formatPrice(this.total);
+                        }
+                    });
+                    return;
+                });
+                this.total = 0;
+                let elements = document.querySelectorAll('[name^="mageants_fbt"]');
+                elements.forEach(e => {
+                    if (e.checked) {
+                        this.total += parseFloat(e.getAttribute('data-price-amount'));
+                        this.finalPrice = hyva.formatPrice(this.total);
+                    }
+                });
+            },
+            priceUpdate(element) {
+                if (!element.checked) {
+                    this.total -= parseFloat(element.getAttribute('data-price-amount'));
+                    this.finalPrice = hyva.formatPrice(this.total);
+                } else {
+                    this.total += parseFloat(element.getAttribute('data-price-amount'));
+                    this.finalPrice = hyva.formatPrice(this.total);
+                }
+            }
+        }
+    }
+    
+    document.addEventListener("DOMContentLoaded", () => {
+        let showDetail = "<?= $escaper->escapeHtml(__('Show Details')) ?>";
+        let hideDetail = "<?= $escaper->escapeHtml(__('Hide Details')) ?>";
+        const questionElements = document.querySelectorAll('.show-btn');
+        questionElements.forEach(question => {
+            let text = question.querySelector('.show-details');
+            if(text){
+                text.innerHTML= showDetail;
+            }else{
+                text.innerHTML= showDetail;
+            }
+            question.addEventListener('click', () => {
+                let show = question.parentNode.querySelector('.showDetails');
+                let text = question.querySelector('.show-details');
+                if(show.classList.contains('hidden')){
+                    show.classList.add('block');
+                    show.classList.remove('hidden');
+                    text.innerHTML= hideDetail;
+                }else{
+                    text.innerHTML= showDetail;
+                    show.classList.remove('block');
+                    show.classList.add('hidden');
+                }
+                
+            });
+        });
+    });
+</script>

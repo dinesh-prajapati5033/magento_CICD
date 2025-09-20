@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<!-- 
+ /**
+ * @category  Dinesh HyvaFrequentlyBought
+ * @package   Dinesh_HyvaFrequentlyBought
+ * @copyright Copyright (c) 2023 Magento
+ * @author    Dinesh Team <support@dinesh.com>
+ */
+ -->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="product.detail.page">
+            <action method="setTemplate">
+                <argument name="template" xsi:type="string">Dinesh_HyvaFrequentlyBought::product/product-detail-page.phtml</argument>
+            </action>
+            <block class="Dinesh\FrequentlyBought\Block\Product\ProductList\FrequentlyBought" name="dinesh.frequently.bought.together.new" template="Dinesh_HyvaFrequentlyBought::product/list/items.phtml" ifconfig="fbt_section/bought_together_settings/enable_disable">
+                <block class="Magento\Catalog\Block\Product\View\Options" name="dinesh.product.info.options" as="product_options" template="Dinesh_HyvaFrequentlyBought::product/view/options/options.phtml">
+                    <block class="Magento\Catalog\Block\Product\View\Options\Type\DefaultType" name="dinesh.product.info.options.default" as="default" template="Magento_Catalog::product/view/options/type/default.phtml" />
+                    <block class="Magento\Catalog\Block\Product\View\Options\Type\Text" name="dinesh.product.info.options.text" as="text" template="Dinesh_HyvaFrequentlyBought::product/view/options/type/text.phtml" />
+                    <block class="Magento\Catalog\Block\Product\View\Options\Type\File" name="dinesh.product.info.options.file" as="file" template="Dinesh_HyvaFrequentlyBought::product/view/options/type/file.phtml" />
+                    <block class="Magento\Catalog\Block\Product\View\Options\Type\Select" name="dinesh.product.info.options.select" as="select" template="Dinesh_HyvaFrequentlyBought::product/view/options/type/select.phtml" />
+                    <block class="Magento\Catalog\Block\Product\View\Options\Type\Date" name="dinesh.product.info.options.date" as="date" template="Dinesh_HyvaFrequentlyBought::product/view/options/type/date.phtml" />
+                </block>
+                <block class="Magento\Bundle\Block\Catalog\Product\View\Type\Bundle" name="dinesh.product.info.bundle.options" as="type_bundle_options" template="Dinesh_HyvaFrequentlyBought::product/view/type/bundle/options.phtml" before="-">
+                    <block class="Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option\Select" name="dinesh.product.info.bundle.options.select" as="select" template="Dinesh_HyvaFrequentlyBought::product/view/type/bundle/option/select.phtml">
+                        <arguments>
+                            <argument name="tier_price_renderer" xsi:type="object">
+                    \Magento\Bundle\Block\DataProviders\OptionPriceRenderer</argument>
+                        </arguments>
+                    </block>
+                    <block class="Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option\Multi" name="dinesh.product.info.bundle.options.multi" as="multi" template="Dinesh_HyvaFrequentlyBought::product/view/type/bundle/option/multi.phtml" />
+                    <block class="Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option\Radio" name="dinesh.product.info.bundle.options.radio" as="radio" template="Dinesh_HyvaFrequentlyBought::product/view/type/bundle/option/radio.phtml">
+                        <arguments>
+                            <argument name="tier_price_renderer" xsi:type="object">
+                    \Magento\Bundle\Block\DataProviders\OptionPriceRenderer</argument>
+                        </arguments>
+                    </block>
+                    <block class="Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option\Checkbox" name="dinesh.product.info.bundle.options.checkbox" as="checkbox" template="Dinesh_HyvaFrequentlyBought::product/view/type/bundle/option/checkbox.phtml">
+                        <arguments>
+                            <argument name="tier_price_renderer" xsi:type="object">
+                    \Magento\Bundle\Block\DataProviders\OptionPriceRenderer</argument>
+                        </arguments>
+                    </block>
+                </block>
+                <block class="Magento\Catalog\Block\Product\View" name="dinesh.product.info.bundle.price" template="Dinesh_HyvaFrequentlyBought::product/view/type/bundle/price.phtml">
+                    <arguments>
+                        <argument name="product_view_model" xsi:type="object">Hyva\Theme\ViewModel\ProductPage</argument>
+                    </arguments>
+                </block>
+                <block class="Magento\Catalog\Block\Product\Price" name="dinesh.product.info.price" template="Dinesh_HyvaFrequentlyBought::product/view/price.phtml" />
+            </block>
+        </referenceBlock>
+        <referenceBlock name="dinesh.frequently.bought.together" remove="true" />
+    </body>
+</page>

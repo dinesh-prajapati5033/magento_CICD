@@ -1,0 +1,14 @@
+<?php
+/**
+ * @category  Mageants FrequentlyBought
+ * @package   Mageants_FrequentlyBought
+ * @copyright Copyright (c) 2017 Mageants
+ * @author    Mageants Team <support@mageants.com>
+ */
+$_options = $block->decorateArray($block->getOptions()) ?>
+<?php $_productId = $block->getProduct()->getId() ?>
+<?php if (count($_options)):?>
+    <?php foreach ($_options as $_option): ?>
+        <?= $block->getOptionHtml($_option) ?>
+    <?php endforeach; ?>
+<?php endif; ?>

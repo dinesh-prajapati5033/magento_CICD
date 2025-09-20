@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+* @category  Dinesh FrequentlyBought
+* @package   Dinesh_FrequentlyBought
+* @copyright Copyright (c) 2017 Dinesh
+* @author    Dinesh Team <support@dinesh.com>
+*/
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+<!-- you can change this event name -->
+  <event name="layout_load_before"> 
+    <observer name="fbt_block_position" instance="Dinesh\FrequentlyBought\Observer\SetBlockPosition" />
+  </event>
+</config>

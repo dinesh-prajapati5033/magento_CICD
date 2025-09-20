@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!-- 
+ /**
+ * @category  Mageants HyvaFrequentlyBought
+ * @package   Mageants_HyvaFrequentlyBought
+ * @copyright Copyright (c) 2023 Magento
+ * @author    Mageants Team <support@mageants.com>
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+	<type name="Hyva\CompatModuleFallback\Model\CompatModuleRegistry">
+		<arguments>
+			<argument name="compatModules" xsi:type="array">
+				<item name="orig_module_map" xsi:type="array">
+					<item name="original_module" xsi:type="string">Mageants_FrequentlyBought</item>
+					<item name="compat_module" xsi:type="string">Mageants_HyvaFrequentlyBought</item>
+				</item>
+			</argument>
+		</arguments>
+	</type>
+	<preference for="Mageants\FrequentlyBought\Block\Product\ProductList\FrequentlyBought" type="Mageants\HyvaFrequentlyBought\Block\Product\ProductList\FrequentlyBought" />
+	<preference for="Mageants\FrequentlyBought\Block\Product\View\Type\Configurable" type="Mageants\HyvaFrequentlyBought\Block\Product\View\Type\Configurable" />
+	<preference for="Hyva\Theme\ViewModel\CustomOption" type="Mageants\HyvaFrequentlyBought\ViewModel\CustomOption" />
+	<preference for="Mageants\FrequentlyBought\Observer\SetBlockPosition" type="Mageants\HyvaFrequentlyBought\Observer\SetBlockPosition" />
+</config>

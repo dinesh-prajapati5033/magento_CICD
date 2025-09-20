@@ -1,0 +1,21 @@
+<?php
+/**
+ * @category  Mageants FrequentlyBought
+ * @package   Mageants_FrequentlyBought
+ * @copyright Copyright (c) 2017 Mageants
+ * @author    Mageants Team <support@mageants.com>
+ */
+$product = $block->getProduct();
+?>
+<div class="swatch-opt" data-role="swatch-options-<?= $block->escapeHtmlAttr($product->getId()); ?>"></div>
+
+<script type="text/x-magento-init">
+    {
+        "[data-role=swatch-options-<?= $block->escapeHtmlAttr($product->getId()); ?>]": {
+            "FbtSwatchRenderer": {
+                "jsonConfig": <?= /* @noEscape */ $block->getJsonConfig(); ?>,
+                "jsonSwatchConfig": <?= /* @noEscape */ $block->getJsonSwatchConfig(); ?>
+            }
+        }
+    }
+</script>

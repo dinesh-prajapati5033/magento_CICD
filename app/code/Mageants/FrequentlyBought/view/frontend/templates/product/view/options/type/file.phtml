@@ -1,0 +1,82 @@
+<?php
+/**
+ * @category  Mageants FrequentlyBought
+ * @package   Mageants_FrequentlyBought
+ * @copyright Copyright (c) 2017 Mageants
+ * @author    Mageants Team <support@mageants.com>
+ */
+$_option = $block->getOption();
+$_fileInfo = $block->getFileInfo();
+$_fileExists = $_fileInfo->hasData();
+$_fileName = 'options_' . $_option->getId() . '_file';
+$_fieldNameAction = $_fileName . '_action';
+$_fieldValueAction = $_fileExists ? 'save_old' : 'save_new';
+$_fileNamed = $_fileName . '_name';
+$class = ($_option->getIsRequire()) ? ' required' : '';
+$productId = $block->getProduct()->getId();
+?>
+<div class="field file<?= $block->escapeHtmlAttr($class); ?>">
+    <label
+    class="label"
+    for="<?= $block->escapeHtmlAttr($_fileName); ?>"
+    id="<?= $block->escapeHtmlAttr($_fileName); ?>-label">
+        <span><?= $block->escapeHtml($_option->getTitle()) ?></span>
+        <?= /* @noEscape */ $block->getFormatedPrice() ?>
+    </label>
+    <?php if ($_fileExists): ?>
+    <div class="control">
+        <span class="<?= $block->escapeHtmlAttr($_fileNamed) ?>">
+            <?= $block->escapeHtml($_fileInfo->getTitle()); ?>
+        </span>
+        <a href="javascript:void(0)" class="label" id="change-<?= $block->escapeHtmlAttr($_fileName) ?>" >
+            <?= $block->escapeHtml(__('Change')) ?>
+        </a>
+        <?php if (!$_option->getIsRequire()): ?>
+            <input type="checkbox" id="delete-<?= $block->escapeHtmlAttr($_fileName) ?>" />
+            <span class="label"><?= $block->escapeHtml(__('Delete')) ?></span>
+        <?php endif; ?>
+    </div>
+    <?php endif; ?>
+    <div class="control" id="input-box-<?= $block->escapeHtmlAttr($_fileName) ?>"
+        data-mage-init='{"priceOptionFile":{
+        "fileName":"<?= $block->escapeHtmlAttr($_fileName) ?>",
+        "fileNamed":"<?= $block->escapeHtmlAttr($_fileNamed) ?>",
+        "fieldNameAction":"<?= $block->escapeHtmlAttr($_fieldNameAction) ?>",
+        "changeFileSelector":"#change-<?= $block->escapeHtmlAttr($_fileName) ?>",
+        "deleteFileSelector":"#delete-<?= $block->escapeHtmlAttr($_fileName) ?>"}
+    }'
+    <?= $block->escapeHtmlAttr(($_fileExists) ? 'style="display:none"' : ''); ?>>
+        <input type="file"
+        name="<?= $block->escapeHtmlAttr($_fileName); ?>"
+        id="<?= $block->escapeHtmlAttr($_fileName); ?>"
+        class="product-custom-option<?=
+        $block->escapeHtmlAttr(($_option->getIsRequire()) ? ' required' : ''); ?>"
+        <?= $block->escapeHtmlAttr(($_fileExists) ? 'disabled="disabled"' : ''); ?> />
+        <input type="hidden"
+        name="<?= $block->escapeHtmlAttr($_fieldNameAction); ?>"
+        value="<?= $block->escapeHtmlAttr($_fieldValueAction); ?>"/>
+        <?php if ($_option->getFileExtension()): ?>
+            <p class="note">
+                <?= $block->escapeHtml(__('Compatible file extensions to upload')) ?>: <strong>
+                    <?= $block->escapeHtml($_option->getFileExtension()) ?>
+                </strong>
+            </p>
+        <?php endif; ?>
+        <?php if ($_option->getImageSizeX() > 0): ?>
+            <p class="note">
+                <?= $block->escapeHtml(__('Maximum image width')) ?>: <strong>
+                    <?= $block->escapeHtml($_option->getImageSizeX()) ?>
+                    <?= $block->escapeHtml(__('px.')) ?>
+                </strong>
+            </p>
+        <?php endif; ?>
+        <?php if ($_option->getImageSizeY() > 0): ?>
+            <p class="note">
+                <?= $block->escapeHtml(__('Maximum image height')) ?>: <strong>
+                    <?= $block->escapeHtml($_option->getImageSizeY()) ?>
+                    <?= $block->escapeHtml(__('px.')) ?>
+                </strong>
+            </p>
+        <?php endif; ?>
+    </div>
+</div>

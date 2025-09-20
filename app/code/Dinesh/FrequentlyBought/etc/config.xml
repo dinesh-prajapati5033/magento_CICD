@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category  Dinesh FrequentlyBought
+ * @package   Dinesh_FrequentlyBought
+ * @copyright Copyright (c) 2017 Dinesh
+ * @author    Dinesh Team <support@dinesh.com>
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <frequentlybought>
+            <general>
+                <enabled>1</enabled>
+                <block_name>Frequently bought together</block_name>
+                <item_limit>3</item_limit>
+                <enable_add_to_wishlist>1</enable_add_to_wishlist>
+                <remove_related_block>1</remove_related_block>
+            </general>
+        </frequentlybought>
+    </default>
+</config>

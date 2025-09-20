@@ -1,0 +1,67 @@
+<?php
+/**
+ * @category Dinesh HyvaFrequentlyBought
+ * @package Dinesh_HyvaFrequentlyBought
+ * @copyright Copyright (c) 2023 Dinesh
+ * @author Dinesh Team <info@dinesh.com>
+ */
+declare(strict_types=1);
+
+use Magento\Catalog\Block\Product\View;
+use Hyva\Theme\Model\ViewModelRegistry;
+use Dinesh\HyvaFrequentlyBought\ViewModel\CustomOption;
+
+$configPath = 'fbt_section/bought_together_settings/fbt_section_position';
+
+/** @var View $block */
+/** @var ViewModelRegistry $viewModels */
+$customOption = $viewModels->require(CustomOption::class);
+$getPosition = explode(':', $customOption->getHelper()->getConfig($configPath));
+$product = $block->getProduct();
+?>
+<section class="text-gray-700 body-font">
+    <div class="flex pb-6 md:py-6 lg:flex-row flex-col items-center">
+        <div class="grid grid-rows-auto grid-cols-1 md:gap-x-5 md:grid-cols-[42%_minmax(0,_1fr)]
+         md:grid-rows-[min-content_minmax(0,_1fr)] lg:gap-x-10 lg:grid-cols-2 w-full">
+            <?= $block->getChildHtml('product.title') ?>
+            <?= $block->getChildHtml('product.media') ?>
+            <?= $block->getChildHtml('product.info') ?>
+        </div>
+    </div>
+</section>
+<section>
+    <?= $block->getChildHtml('product_options_wrapper_bottom') ?>
+</section>
+
+<?= $block->getChildHtml('product.info.details'); ?>
+
+<section>
+    <?php if ($getPosition[1]=='before' && $getPosition[2]=='catalog.product.related'):?>
+        <?= $block->getLayout()->getBlock('dinesh.frequently.bought.together.new')->toHtml() ?>
+        <?= $block->getChildHtml('related') ?>
+        <?= $block->getChildHtml('upsell') ?>
+    <?php elseif ($getPosition[0]=='replace' && $getPosition[1]=='catalog.product.related'):?>
+        <?= $block->getLayout()->getBlock('dinesh.frequently.bought.together.new')->toHtml() ?>
+        <?= $block->getChildHtml('upsell') ?>
+    <?php elseif ($getPosition[1]=='after' && $getPosition[2]=='catalog.product.related'):?>
+        <?= $block->getChildHtml('related') ?>
+        <?= $block->getLayout()->getBlock('dinesh.frequently.bought.together.new')->toHtml() ?>
+        <?= $block->getChildHtml('upsell') ?>
+    <?php elseif ($getPosition[1]=='before' && $getPosition[2]=='product.info.upsell'):?>
+        <?= $block->getChildHtml('related') ?>
+        <?= $block->getLayout()->getBlock('dinesh.frequently.bought.together.new')->toHtml() ?>
+        <?= $block->getChildHtml('upsell') ?>
+    <?php elseif ($getPosition[0]=='replace' && $getPosition[1]=='product.info.upsell'):?>
+        <?= $block->getChildHtml('related') ?>
+        <?= $block->getLayout()->getBlock('dinesh.frequently.bought.together.new')->toHtml() ?>
+    <?php elseif ($getPosition[1]=='after' && $getPosition[2]=='product.info.upsell'):?>
+        <?= $block->getChildHtml('related') ?>
+        <?= $block->getChildHtml('upsell') ?>
+        <?= $block->getLayout()->getBlock('dinesh.frequently.bought.together.new')->toHtml() ?>
+    <?php else:?>
+        <?= $block->getChildHtml('related') ?>
+        <?= $block->getChildHtml('upsell') ?>
+    <?php endif;?>
+    <?= $block->getChildHtml('review_list') ?>
+    <?= $block->getChildHtml('review_form') ?>
+</section>

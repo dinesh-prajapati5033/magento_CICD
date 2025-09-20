@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!-- 
+ /**
+ * @category  Dinesh HyvaFrequentlyBought
+ * @package   Dinesh_HyvaFrequentlyBought
+ * @copyright Copyright (c) 2023 Magento
+ * @author    Dinesh Team <support@dinesh.com>
+ */
+ -->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+	<type name="Hyva\CompatModuleFallback\Model\CompatModuleRegistry">
+		<arguments>
+			<argument name="compatModules" xsi:type="array">
+				<item name="orig_module_map" xsi:type="array">
+					<item name="original_module" xsi:type="string">Dinesh_FrequentlyBought</item>
+					<item name="compat_module" xsi:type="string">Dinesh_HyvaFrequentlyBought</item>
+				</item>
+			</argument>
+		</arguments>
+	</type>
+	<preference for="Dinesh\FrequentlyBought\Block\Product\ProductList\FrequentlyBought" type="Dinesh\HyvaFrequentlyBought\Block\Product\ProductList\FrequentlyBought" />
+	<preference for="Dinesh\FrequentlyBought\Block\Product\View\Type\Configurable" type="Dinesh\HyvaFrequentlyBought\Block\Product\View\Type\Configurable" />
+	<preference for="Hyva\Theme\ViewModel\CustomOption" type="Dinesh\HyvaFrequentlyBought\ViewModel\CustomOption" />
+	<preference for="Dinesh\FrequentlyBought\Observer\SetBlockPosition" type="Dinesh\HyvaFrequentlyBought\Observer\SetBlockPosition" />
+</config>

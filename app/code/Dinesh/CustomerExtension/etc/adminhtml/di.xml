@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Customer\Block\Adminhtml\Customer\Edit\Form">
+        <plugin name="customer_password_field" type="Dinesh\CustomerExtension\Plugin\Customer\EditForm" />
+    </type>
+    <type name="Magento\Customer\Model\Customer">
+        <arguments>
+            <argument name="customerModel" xsi:type="object">Dinesh\CustomerExtension\Model\Customer\Customer</argument>
+        </arguments>
+    </type>
+</config>

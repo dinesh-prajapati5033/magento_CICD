@@ -1,0 +1,54 @@
+<?php
+/**
+ * @category  Mageants FrequentlyBought
+ * @package   Mageants_FrequentlyBought
+ * @copyright Copyright (c) 2017 Mageants
+ * @author    Mageants Team <support@mageants.com>
+ */
+$_option = $block->getOption();
+$_optionId = $_option->getId();
+$productId = $block->getProduct()->getId();
+$class = ($_option->getIsRequire()) ? ' required' : '';
+?>
+<div class="field date<?= $block->escapeHtmlAttr($class); ?>"
+    data-mage-init='{"priceOptionDate":{"fromSelector":"#product_addtocart_form"}}'>
+    <fieldset class="fieldset fieldset-product-options-inner<?= $block->escapeHtmlAttr($class); ?>">
+        <legend class="legend">
+            <span><?= $block->escapeHtml($_option->getTitle()) ?></span>
+            <?= /* @noEscape */ $block->getFormatedPrice() ?>
+        </legend>
+        <div class="control">
+            <?php if ($_option->getType() == \Magento\Catalog\Model\Product\Option::OPTION_TYPE_DATE_TIME
+                || $_option->getType() == \Magento\Catalog\Model\Product\Option::OPTION_TYPE_DATE): ?>
+                <?= $block->getDateHtml() ?>
+            <?php endif; ?>
+            <?php if ($_option->getType() == \Magento\Catalog\Model\Product\Option::OPTION_TYPE_DATE_TIME
+                || $_option->getType() == \Magento\Catalog\Model\Product\Option::OPTION_TYPE_TIME): ?>
+                <?= $block->getTimeHtml() ?>
+            <?php endif; ?>
+            <?php if ($_option->getIsRequire()): ?>
+                <input
+                type="hidden"
+                name="validate_datetime_<?= $block->escapeHtmlAttr($_optionId) ?>"
+                class="validate-datetime-<?= $block->escapeHtmlAttr($_optionId) ?>"
+                value=""
+                data-validate="{'validate-required-datetime':<?= $block->escapeHtmlAttr($_optionId) ?>}"/>
+            <?php else: ?>
+                <input type="hidden"
+                name="validate_datetime_<?= $block->escapeHtmlAttr($_optionId) ?>"
+                class="validate-datetime-<?= $block->escapeHtmlAttr($_optionId) ?>"
+                value=""
+                data-validate="{'validate-optional-datetime':<?= $block->escapeHtmlAttr($_optionId) ?>}"/>
+            <?php endif; ?>
+            <script type="text/x-magento-init">
+            {
+                "#product_addtocart_form": {
+                    "validation": {
+                        "ignore": ":hidden:not(input[name^='validate_datetime_'])"
+                    }
+                }
+            }
+        </script>
+        </div>
+    </fieldset>
+</div>

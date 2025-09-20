@@ -1,0 +1,41 @@
+<?php
+
+/**
+ * @category Mageants HyvaFrequentlyBought
+ * @package Mageants_HyvaFrequentlyBought
+ * @copyright Copyright (c) 2023 Mageants
+ * @author Mageants Team <info@mageants.com>
+ */
+
+declare(strict_types=1);
+
+use Hyva\Theme\Model\ViewModelRegistry;
+use Mageants\HyvaFrequentlyBought\ViewModel\CustomOption;
+use Magento\Catalog\Block\Product\View\Options\Type\Select;
+use Magento\Framework\Escaper;
+
+/** @var Select $block */
+/** @var Escaper $escaper */
+/** @var ViewModelRegistry $viewModels */
+
+$option = $block->getOption();
+$product = $block->getProduct();
+
+/** @var CustomOption $customOptionsViewModel */
+$customOptionsViewModel = $viewModels->require(CustomOption::class);
+
+?>
+<div class="flex flex-wrap flex-col sm:flex-row border-t 
+    border-gray-300 py-2 last:mb-6 last:border-b w-full items-center">
+    <label class="label text-gray-700 text-left w-full"
+           for="select_<?= $escaper->escapeHtmlAttr($option->getId()) ?>"
+    >
+        <span><?= $escaper->escapeHtml($option->getTitle()) ?></span>
+        <?php if ($option->getIsRequire()): ?>
+            <span class="sup text-sm">*</span>
+        <?php endif; ?>
+    </label>
+    <div class="text-gray-900 text-left w-full">
+        <?= $customOptionsViewModel->getOptionHtml($option, $product); ?>
+    </div>
+</div>

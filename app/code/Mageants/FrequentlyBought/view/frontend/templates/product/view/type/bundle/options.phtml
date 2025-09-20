@@ -1,0 +1,44 @@
+<?php
+/**
+ * @category  Mageants FrequentlyBought
+ * @package   Mageants_FrequentlyBought
+ * @copyright Copyright (c) 2017 Mageants
+ * @author    Mageants Team <support@mageants.com>
+ */
+$product = $block->getProduct();
+$options = $block->decorateArray($block->getOptions());
+?>
+<?php if ($product->isSaleable()):?>
+    <div class="bundle-options-container">
+        <?php if (count($options)): ?>
+        <div class="bundle-options-wrapper">
+            <div class="product-options-wrapper" id="product-options-wrapper" data-hasrequired="* Required Fields">
+                <div class="fieldset" tabindex="0">
+                    <script type="text/x-magento-init">
+                        {
+                            ".mageants-fbt-option-wrapper-<?= $block->escapeHtmlAttr($product->getId()); ?>": {
+                                "FbtPriceBundle": {
+                                    "optionConfig": <?= /* @noEscape */ $block->getJsonConfig()?>,
+                                    "controlContainer": ".field.option"
+                                }
+                            }
+                        }
+                    </script>
+                    <fieldset class="fieldset fieldset-bundle-options">
+                        <?php foreach ($options as $option): ?>
+                            <?php if ($option->getSelections()): ?>
+                                <?php //continue; ?>
+                                <?= $block->getChildBlock($option->getType())
+                                ->setProduct($product)->setOption($option)->toHtml(); ?>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+        <div class="mp-clear"></div>
+        <?php else: ?>
+            <p class="empty"><?= $block->escapeHtml(__('No options of this product are available.')) ?></p>
+        <?php endif; ?>
+    </div>
+<?php endif;?>

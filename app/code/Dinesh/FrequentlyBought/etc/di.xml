@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category  Dinesh FrequentlyBought
+ * @package   Dinesh_FrequentlyBought
+ * @copyright Copyright (c) 2017 Dinesh
+ * @author    Dinesh Team <support@dinesh.com>
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <preference for="Magento\Catalog\Model\Product"
+                type="Dinesh\FrequentlyBought\Model\Product"/>
+    <preference for="Magento\Catalog\Model\Product\Link"
+                type="Dinesh\FrequentlyBought\Model\Catalog\Product\Link"/>
+    <preference for="Magento\Catalog\Model\Product\Link\Proxy"
+                type="Dinesh\FrequentlyBought\Model\Catalog\Product\Link\Proxy"/>
+
+    <type name="Magento\Catalog\Model\Product\Initialization\Helper\ProductLinks">
+        <plugin sortOrder="4" name="afterInitializeLinks"
+                type="Dinesh\FrequentlyBought\Plugin\ProductLinks"/>
+    </type>
+
+    <!--For version 2.1.2-->
+    <preference for="Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\Related"
+                type="Dinesh\FrequentlyBought\Ui\DataProvider\Product\Form\Modifier\Related"/>
+
+    <type name="Magento\Catalog\Model\Product\LinkTypeProvider">
+        <arguments>
+            <argument name="linkTypes" xsi:type="array">
+                <item name="customtype" xsi:type="const">Dinesh\FrequentlyBought\Model\Catalog\Product\Link::LINK_TYPE_FREQUENTLYBOUGHTTOGETHER</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Magento\Catalog\Model\ProductLink\CollectionProvider">
+        <arguments>
+            <argument name="providers" xsi:type="array">
+                <item name="customtype" xsi:type="object">Dinesh\FrequentlyBought\Model\Product\Link\CollectionProvider\CustomType</item>
+            </argument>
+        </arguments>
+    </type>
+</config>
