@@ -40,7 +40,7 @@ jobs:
     - name: Set Composer Auth
       run: |
         mkdir -p ~/.composer
-        echo "${{ secrets.COMPOSER_AUTH }}" > ~/.composer/auth.json
+        echo "${{ secrets.COMPOSER_AUTH }}" > ./auth.json
 
     - name: Install Composer dependencies
       run: composer install --no-interaction --prefer-dist
